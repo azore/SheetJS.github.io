@@ -1,5 +1,5 @@
 /* vim: set ts=2: */
-
+/* binary magic from stuk.github.io/jszip/test/browser-ie-test-utils.js */
 function parsetest(x, wb) {
 	describe(x + ' should have all bits', function() {
 		it('should have all sheets', function() {
@@ -438,26 +438,59 @@ describe('should parse test files', function() {
 	].forEach(function(x) {
 		it(x, x.substr(-8) == ".pending" ? null : function(done) {
 			var oReq;
-			if(window.XMLHttpRequest || XMLHttpRequest) oReq = new XMLHttpRequest();
+			if(typeof window.XMLHttpRequest !== "undefined" || typeof XMLHttpRequest !== "undefined") oReq = new XMLHttpRequest();
 			else oReq = new ActiveXObject("Microsoft.XMLHTTP");
 			oReq.open("GET", '/test_files/' + x, true);
 			if(oReq.overrideMimeType) oReq.overrideMimeType('text\/plain; charset=x-user-defined');
 			if(typeof oReq.responseType !== "undefined") oReq.responseType = "arraybuffer";
-			oReq.onload = function(e) {
+			var f = function(e) {
+				var wb;
 				var arr = new Array();
 				if(typeof oReq.responseType !== "undefined") {
 					var arraybuffer = oReq.response;
 					var data = new Uint8Array(arraybuffer);
 					for(var i = 0; i != data.length; ++i) arr[i] = data[i];
+					wb = x.substr(-1) == "s" ? XLS.read(arr, {type:'array'})
+						: XLSX.read(arr.map(function(x) { return String.fromCharCode(x); }).join(""), {type:'binary'});
 				} else {
-					console.log("else"); 
-					var data = oReq.responseText;
+					var binary = oReq.responseBody;
+					var byteMapping = {};
+					for ( var i = 0; i < 256; i++ ) {
+						for ( var j = 0; j < 256; j++ ) {
+							byteMapping[ String.fromCharCode( i + (j << 8) ) ] = String.fromCharCode(i) + String.fromCharCode(j);
+						}
+					}
+					var rawBytes = IEBinaryToArray_ByteStr(binary);
+					var lastChr = IEBinaryToArray_ByteStr_Last(binary);
+					var data = rawBytes.replace(/[\s\S]/g, function( match ) { return byteMapping[match]; }) + lastChr;
 					for(var i = 0; i != data.length; ++i) arr[i] = data.charCodeAt(i) & 0xff;
+					wb = x.substr(-1) == "s" ? XLS.read(arr, {type:'array'})
+						: XLSX.read(arr.map(function(x) { return String.fromCharCode(x); }).join(""), {type:'binary'});
 				}
-				var wb = x.substr(-1) == "s" ? XLS.read(arr, {type:'array'})
-					: XLSX.read(arr.map(function(x) { return String.fromCharCode(x); }).join(""), {type:'binary'});
 				parsetest(x, wb);
 				done();
+			}
+			try { oReq.onload = f; } catch(e) { 
+				oReq.onreadystatechange = function() {
+					if(oReq.readyState !== 4) return false;
+					if(oReq.status != 200) throw "bad request: " + oReq.status;
+					var binary = oReq.responseBody;
+					var byteMapping = {};
+					for ( var i = 0; i < 256; i++ ) {
+						for ( var j = 0; j < 256; j++ ) {
+							byteMapping[ String.fromCharCode( i + (j << 8) ) ] = String.fromCharCode(i) + String.fromCharCode(j);
+						}
+					}
+					var rawBytes = IEBinaryToArray_ByteStr(binary);
+					var lastChr = IEBinaryToArray_ByteStr_Last(binary);
+					var data = rawBytes.replace(/[\s\S]/g, function( match ) { return byteMapping[match]; }) + lastChr;
+					var arr = [];
+					for(var i = 0; i != data.length; ++i) arr[i] = data.charCodeAt(i) & 0xff;
+					wb = x.substr(-1) == "s" ? XLS.read(arr, {type:'array'})
+						: XLSX.read(arr.map(function(x) { return String.fromCharCode(x); }).join(""), {type:'binary'});
+					parsetest(x, wb);
+					done();
+				};
 			}
 			oReq.send();
 		});

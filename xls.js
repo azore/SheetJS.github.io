@@ -3866,7 +3866,7 @@ var XLSXFutureFunctions = {
 	"_xlfn.WEIBULL.DIST": "WEIBULL.DIST",
 	"_xlfn.WORKDAY.INTL": "WORKDAY.INTL",
 	"_xlfn.XOR": "XOR",
-	"_xlfn.Z.TEST": "Z.TEST",
+	"_xlfn.Z.TEST": "Z.TEST"
 };
 var RecordEnum = {
 	0x0809: { n:'BOF', f:parse_BOF },
