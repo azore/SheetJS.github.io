@@ -434,7 +434,7 @@ describe('should parse test files', function() {
 "workbookProtection_workbook_windows_protected.xlsx",
 "workbookProtection_worksheet_protected.xlsx",
 "xlsx-jdbc.xlsx",
-"חישוב_נקודות_זיכוי.xlsx"
+"חישוב_נקודות_זיכוי.xlsx.pending"
 	].forEach(function(x) {
 		it(x, x.substr(-8) == ".pending" ? null : function(done) {
 			var oReq;
