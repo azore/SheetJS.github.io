@@ -1,5 +1,5 @@
+/* test.js (C) 2013 SheetJS -- http://sheetjs.com */
 /* vim: set ts=2: */
-/* binary magic from stuk.github.io/jszip/test/browser-ie-test-utils.js */
 function parsetest(x, wb) {
 	describe(x + ' should have all bits', function() {
 		it('should have all sheets', function() {
@@ -130,6 +130,7 @@ describe('should parse test files', function() {
 "49096.xls",
 "49185.xls",
 "49219.xls",
+"49237.xls",
 "49524.xls",
 "49529.xls",
 "49581.xls",
@@ -164,6 +165,7 @@ describe('should parse test files', function() {
 "53972.xls",
 "54016.xls",
 "54206.xls",
+"54500.xls",
 "54686_fraction_formats.xls",
 "55341_CellStyleBorder.xls",
 "AbnormalSharedFormulaFlag.xls",
@@ -216,6 +218,7 @@ describe('should parse test files', function() {
 "SampleSS.xls",
 "SharedFormulaTest.xls",
 "SheetWithDrawing.xls",
+"ShrinkToFit.xls",
 "Simple.xls",
 "SimpleChart.xls",
 "SimpleMultiCell.xls",
@@ -289,8 +292,111 @@ describe('should parse test files', function() {
 "externalFunctionExample.xls",
 "finance.xls",
 "formula_stress_test.xls",
+"fraction-test.xls",
 "intercept.xls",
+"jxls-core_array.xls",
+"jxls-core_beandata.xls",
+"jxls-core_beanwithlist.xls",
+"jxls-core_doubleForEachOneRow.xls",
+"jxls-core_dynamicColumns.xls",
+"jxls-core_employeeNotes.xls",
+"jxls-core_expressions1.xls",
+"jxls-core_fixedsizelist.xls",
+"jxls-core_forOneRow.xls",
+"jxls-core_forOneRowMerge.xls",
+"jxls-core_forOneRowMerge2.xls",
+"jxls-core_forgroup.xls",
+"jxls-core_foriftag2.xls",
+"jxls-core_foriftag3.xls",
+"jxls-core_foriftag3OutTag.xls",
+"jxls-core_foriftagHor.xls",
+"jxls-core_foriftagOneRow.xls",
+"jxls-core_foriftagOneRow2.xls",
+"jxls-core_foriftagmerge.xls",
+"jxls-core_formatterbean.xls",
+"jxls-core_formula3.xls",
+"jxls-core_formula4.xls",
+"jxls-core_formulas.xls",
+"jxls-core_formulas2.xls",
+"jxls-core_grouping1.xls",
+"jxls-core_grouping2.xls",
+"jxls-core_grouping3.xls",
+"jxls-core_grouping4.xls",
+"jxls-core_groupingformulas.xls",
+"jxls-core_grouptag.xls",
+"jxls-core_hidesheets.xls",
+"jxls-core_iftag.xls",
+"jxls-core_iftagempty.xls",
+"jxls-core_jexl.xls",
+"jxls-core_mergecellslist.xls",
+"jxls-core_mergemultiplelistrows.xls",
+"jxls-core_multi-tab-template.xls",
+"jxls-core_multipleSheetList.xls",
+"jxls-core_multiplelistrows.xls",
+"jxls-core_outline.xls",
+"jxls-core_outtaginonerow.xls",
+"jxls-core_paralleltables.xls",
+"jxls-core_poiobjects.xls",
+"jxls-core_repeatedFormula.xls",
+"jxls-core_report.xls",
+"jxls-core_reportTimestamp.xls",
+"jxls-core_select.xls",
+"jxls-core_select2.xls",
+"jxls-core_severallistsinrow.xls",
+"jxls-core_severalpropertiesincell.xls",
+"jxls-core_simplebean.xls",
+"jxls-core_sqltagreport.xls",
+"jxls-core_stress.xls",
+"jxls-core_syntaxerror.xls",
+"jxls-core_twoIfTagsIn1Row.xls",
+"jxls-core_varstatus.xls",
+"jxls-examples_adjacentlists.xls",
+"jxls-examples_basictags.xls",
+"jxls-examples_chart.xls",
+"jxls-examples_colouring.xls",
+"jxls-examples_department.xls",
+"jxls-examples_dynamicolumns.xls",
+"jxls-examples_employees.xls",
+"jxls-examples_ex_temp.xls",
+"jxls-examples_grouping.xls",
+"jxls-examples_multiplelistrows.xls",
+"jxls-examples_report.xls",
+"jxls-examples_rowstyle.xls",
+"jxls-examples_stress1.xls",
+"jxls-examples_stress2.xls",
+"jxls-reader_departmentData.xls",
+"jxls-reader_employeesData.xls",
+"jxls-reader_emptyrowdata.xls",
+"jxls-reader_error1.xls",
+"jxls-reader_formulasData.xls",
+"jxls-reader_ids.xls",
+"jxls-src_adjacentlist_output.xls",
+"jxls-src_adjacentlists.xls",
+"jxls-src_basictags.xls",
+"jxls-src_basictags_output.xls",
+"jxls-src_chart.xls",
+"jxls-src_chart_output.xls",
+"jxls-src_colouring.xls",
+"jxls-src_colouring_output.xls",
+"jxls-src_department.xls",
+"jxls-src_department_output.xls",
+"jxls-src_departmentdata.xls",
+"jxls-src_dynamiccolumns_output.xls",
+"jxls-src_dynamiccolumns_template.xls",
+"jxls-src_employees.xls",
+"jxls-src_employees_output.xls",
+"jxls-src_grouping.xls",
+"jxls-src_grouping_output.xls",
+"jxls-src_hiddencolumn_output.xls",
+"jxls-src_multiplelistrows.xls",
+"jxls-src_multiplelistrows_output.xls",
+"jxls-src_report.xls",
+"jxls-src_report_output.xls",
+"jxls-src_rowstyle.xls",
+"jxls-src_rowstyle_output.xls",
 "large_strings.xls.pending",
+"merge_cells.xls",
+"mirrTest.xls",
 "missingFuncs44675.xls",
 "mortgage-calculation.xls",
 "multibookFormulaA.xls",
@@ -301,8 +407,45 @@ describe('should parse test files', function() {
 "ole2-embedding.xls",
 "overlapSharedFormula.xls",
 "password.xls.pending",
+"pyExcelerator_P-0508-0000507647-3280-5298.xls",
+"pyExcelerator_chart1v8.xls",
+"pyExcelerator_excel2003.xls",
+"pyExcelerator_frmla.xls",
+"pyExcelerator_macro2v8.xls",
+"pyExcelerator_mini-mini.xls",
+"pyExcelerator_mini.xls",
+"pyExcelerator_oo14.xls",
 "rank.xls",
 "rk.xls",
+"roo_1900_base.xls",
+"roo_1904_base.xls",
+"roo_Bibelbund.xls",
+"roo_bad_excel_date.xls",
+"roo_bbu.xls",
+"roo_boolean.xls",
+"roo_borders.xls",
+"roo_bug-row-column-fixnum-float.xls",
+"roo_comments.xls",
+"roo_datetime.xls",
+"roo_datetime_floatconv.xls",
+"roo_emptysheets.xls",
+"roo_false_encoding.xls",
+"roo_formula.xls",
+"roo_formula_parse_error.xls",
+"roo_link.xls",
+"roo_matrix.xls",
+"roo_named_cells.xls",
+"roo_numbers1.xls",
+"roo_only_one_sheet.xls",
+"roo_paragraph.xls",
+"roo_prova.xls",
+"roo_simple_spreadsheet.xls",
+"roo_simple_spreadsheet_from_italo.xls",
+"roo_style.xls",
+"roo_time-test.xls",
+"roo_type_excelx.xls.pending",
+"roo_type_openoffice.xls.pending",
+"roo_whitespace.xls",
 "shared_formulas.xls",
 "sumifformula.xls",
 "sumifs.xls",
@@ -313,6 +456,14 @@ describe('should parse test files', function() {
 "testRVA.xls",
 "text.xls",
 "unicodeNameRecord.xls",
+"xlrd_Formate.xls",
+"xlrd_formula_test_names.xls",
+"xlrd_formula_test_sjmachin.xls",
+"xlrd_issue20.xls",
+"xlrd_picture_in_cell.xls",
+"xlrd_profiles.xls",
+"xlrd_ragged.xls",
+"xlrd_xf_class.xls",
 "yearfracExamples.xls",
 
 "45430.xlsx",
@@ -439,6 +590,7 @@ describe('should parse test files', function() {
 "jxls-examples_stress1.xlsx",
 "jxls-examples_stress2.xlsx",
 "jxls-reader_departmentData.xlsx",
+"merge_cells.xlsx",
 "mixed_sheets.xlsx",
 "named_ranges_2011.xlsx",
 "openpyxl_g_NameWithValueBug.xlsx",
@@ -461,6 +613,32 @@ describe('should parse test files', function() {
 "openpyxl_r_null_file.xlsx.pending",
 "picture.xlsx",
 "reordered_sheets.xlsx",
+"roo_1900_base.xlsx",
+"roo_1904_base.xlsx",
+"roo_Bibelbund.xlsx",
+"roo_Pfand_from_windows_phone.xlsx.pending",
+"roo_bbu.xlsx",
+"roo_boolean.xlsx",
+"roo_borders.xlsx",
+"roo_bug-numbered-sheet-names.xlsx.pending",
+"roo_comments.xlsx",
+"roo_datetime.xlsx",
+"roo_emptysheets.xlsx",
+"roo_file_item_error.xlsx",
+"roo_formula.xlsx",
+"roo_formula_string_error.xlsx",
+"roo_link.xlsx",
+"roo_named_cells.xlsx",
+"roo_numbers1.xlsx",
+"roo_numeric-link.xlsx",
+"roo_only_one_sheet.xlsx",
+"roo_paragraph.xlsx",
+"roo_simple_spreadsheet.xlsx",
+"roo_style.xlsx",
+"roo_time-test.xlsx",
+"roo_type_excel.xlsx.pending",
+"roo_type_openoffice.xlsx.pending",
+"roo_whitespace.xlsx",
 "sample-beta.xlsx.pending",
 "sample.xlsx",
 "shared_formulas.xlsx",
@@ -479,45 +657,48 @@ describe('should parse test files', function() {
 	].forEach(function(x) {
 		it(x, x.substr(-8) == ".pending" ? null : function(done) {
 			var oReq;
+/* binary magic from stuk.github.io/jszip/test/browser-ie-test-utils.js */
 			if(typeof window.XMLHttpRequest !== "undefined" || typeof XMLHttpRequest !== "undefined") oReq = new XMLHttpRequest();
 			else oReq = new ActiveXObject("Microsoft.XMLHTTP");
 			oReq.open("GET", '/test_files/' + x, true);
 			if(oReq.overrideMimeType) oReq.overrideMimeType('text\/plain; charset=x-user-defined');
 			if(typeof oReq.responseType !== "undefined") oReq.responseType = "arraybuffer";
 			var f = function(e) {
-				var wb;
+				var wb, data, i;
+				/*jshint -W009 */
 				var arr = new Array();
 				if(typeof oReq.responseType !== "undefined") {
 					var arraybuffer = oReq.response;
-					var data = new Uint8Array(arraybuffer);
-					for(var i = 0; i != data.length; ++i) arr[i] = data[i];
+					data = new Uint8Array(arraybuffer);
+					for(i = 0; i != data.length; ++i) arr[i] = data[i];
 					wb = x.substr(-1) == "s" ? XLS.read(arr, {type:'array'})
 						: XLSX.read(arr.map(function(x) { return String.fromCharCode(x); }).join(""), {type:'binary'});
 				} else {
 					var binary = oReq.responseBody;
 					var byteMapping = {};
-					for ( var i = 0; i < 256; i++ ) {
+					for ( i = 0; i < 256; i++ ) {
 						for ( var j = 0; j < 256; j++ ) {
 							byteMapping[ String.fromCharCode( i + (j << 8) ) ] = String.fromCharCode(i) + String.fromCharCode(j);
 						}
 					}
 					var rawBytes = IEBinaryToArray_ByteStr(binary);
 					var lastChr = IEBinaryToArray_ByteStr_Last(binary);
-					var data = rawBytes.replace(/[\s\S]/g, function( match ) { return byteMapping[match]; }) + lastChr;
-					for(var i = 0; i != data.length; ++i) arr[i] = data.charCodeAt(i) & 0xff;
+					data = rawBytes.replace(/[\s\S]/g, function( match ) { return byteMapping[match]; }) + lastChr;
+					for(i = 0; i != data.length; ++i) arr[i] = data.charCodeAt(i) & 0xff;
 					wb = x.substr(-1) == "s" ? XLS.read(arr, {type:'array'})
 						: XLSX.read(arr.map(function(x) { return String.fromCharCode(x); }).join(""), {type:'binary'});
 				}
 				parsetest(x, wb);
 				done();
-			}
+			};
 			try { oReq.onload = f; } catch(e) { 
 				oReq.onreadystatechange = function() {
+					var i;
 					if(oReq.readyState !== 4) return false;
 					if(oReq.status != 200) throw "bad request: " + oReq.status;
 					var binary = oReq.responseBody;
 					var byteMapping = {};
-					for ( var i = 0; i < 256; i++ ) {
+					for ( i = 0; i < 256; i++ ) {
 						for ( var j = 0; j < 256; j++ ) {
 							byteMapping[ String.fromCharCode( i + (j << 8) ) ] = String.fromCharCode(i) + String.fromCharCode(j);
 						}
@@ -526,7 +707,7 @@ describe('should parse test files', function() {
 					var lastChr = IEBinaryToArray_ByteStr_Last(binary);
 					var data = rawBytes.replace(/[\s\S]/g, function( match ) { return byteMapping[match]; }) + lastChr;
 					var arr = [];
-					for(var i = 0; i != data.length; ++i) arr[i] = data.charCodeAt(i) & 0xff;
+					for(i = 0; i != data.length; ++i) arr[i] = data.charCodeAt(i) & 0xff;
 					wb = x.substr(-1) == "s" ? XLS.read(arr, {type:'array'})
 						: XLSX.read(arr.map(function(x) { return String.fromCharCode(x); }).join(""), {type:'binary'});
 					parsetest(x, wb);
