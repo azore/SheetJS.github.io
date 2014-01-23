@@ -4992,7 +4992,7 @@ return WorkbookP;
 function format_cell(cell, v) {
 	if(!cell) return "";
 	if(typeof v === 'undefined') v = cell.v;
-	if(!cell.XF) return cell.v;
+	if(!cell.XF) return v;
 	return SSF.format(cell.XF.ifmt||0, v);
 }
 
