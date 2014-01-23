@@ -89,8 +89,8 @@ describe('should parse test files', function() {
 "apachepoi_44200.xls",
 "apachepoi_44201.xls",
 "apachepoi_44235.xls",
-"apachepoi_44297.xls.pending",
-"apachepoi_44593.xls.pending",
+"apachepoi_44297.xls",
+"apachepoi_44593.xls.pending", /* too large */
 "apachepoi_44636.xls",
 "apachepoi_44643.xls",
 "apachepoi_44693.xls",
@@ -118,7 +118,7 @@ describe('should parse test files', function() {
 "apachepoi_46250.xls",
 "apachepoi_46368.xls",
 "apachepoi_46445.xls",
-"apachepoi_46904.xls.pending",
+"apachepoi_46904.xls.pending", /* too large */
 "apachepoi_47034.xls",
 "apachepoi_47154.xls",
 "apachepoi_47251.xls",
@@ -150,7 +150,7 @@ describe('should parse test files', function() {
 "apachepoi_50756.xls",
 "apachepoi_50779_1.xls",
 "apachepoi_50779_2.xls",
-"apachepoi_50833.xls.pending",
+"apachepoi_50833.xls.pending", /* password */
 "apachepoi_50939.xls",
 "apachepoi_51143.xls",
 "apachepoi_51461.xls",
@@ -158,12 +158,12 @@ describe('should parse test files', function() {
 "apachepoi_51535.xls",
 "apachepoi_51670.xls",
 "apachepoi_51675.xls",
-"apachepoi_51832.xls.pending",
+"apachepoi_51832.xls.pending", /* password */
 "apachepoi_52527.xls",
 "apachepoi_52575_main.xls",
 "apachepoi_52575_source.xls",
 "apachepoi_53404.xls",
-"apachepoi_53446.xls.pending",
+"apachepoi_53446.xls.pending", /* too large */
 "apachepoi_53588.xls",
 "apachepoi_53798_shiftNegative_TMPL.xls",
 "apachepoi_53972.xls",
@@ -281,12 +281,12 @@ describe('should parse test files', function() {
 "apachepoi_ex42564-21435.xls",
 "apachepoi_ex42564-21503.xls",
 "apachepoi_ex42564-elementOrder.xls",
-"apachepoi_ex42570-20305.xls.pending",
+"apachepoi_ex42570-20305.xls",
 "apachepoi_ex44921-21902.xls",
 "apachepoi_ex45046-21984.xls",
 "apachepoi_ex45582-22397.xls",
 "apachepoi_ex45672.xls",
-"apachepoi_ex45698-22488.xls.pending",
+"apachepoi_ex45698-22488.xls.pending", /* too large */
 "apachepoi_ex45978-extraLinkTableSheets.xls",
 "apachepoi_ex46548-23133.xls",
 "apachepoi_ex47747-sharedFormula.xls",
@@ -304,7 +304,7 @@ describe('should parse test files', function() {
 "apachepoi_noHeaderFooter47244.xls",
 "apachepoi_ole2-embedding.xls",
 "apachepoi_overlapSharedFormula.xls",
-"apachepoi_password.xls.pending",
+"apachepoi_password.xls.pending", /* password */
 "apachepoi_rank.xls",
 "apachepoi_rk.xls",
 "apachepoi_shared_formulas.xls",
@@ -317,7 +317,7 @@ describe('should parse test files', function() {
 "apachepoi_testRVA.xls",
 "apachepoi_text.xls",
 "apachepoi_unicodeNameRecord.xls",
-"apachepoi_xor-encryption-abc.xls.pending",
+"apachepoi_xor-encryption-abc.xls.pending", /* password */
 "apachepoi_yearfracExamples.xls",
 "comments_stress_test.xls",
 "formula_stress_test.xls",
@@ -422,7 +422,7 @@ describe('should parse test files', function() {
 "jxls-src_report_output.xls",
 "jxls-src_rowstyle.xls",
 "jxls-src_rowstyle_output.xls",
-"large_strings.xls.pending",
+"large_strings.xls.pending", /* too large */
 "merge_cells.xls",
 "number_format.xls",
 "pyExcelerator_P-0508-0000507647-3280-5298.xls",
@@ -459,8 +459,8 @@ describe('should parse test files', function() {
 "roo_simple_spreadsheet_from_italo.xls",
 "roo_style.xls",
 "roo_time-test.xls",
-"roo_type_excelx.xls.pending",
-"roo_type_openoffice.xls.pending",
+"roo_type_excelx.xls.pending", /* not xls */
+"roo_type_openoffice.xls.pending", /* not xls */
 "roo_whitespace.xls",
 "xlrd_Formate.xls",
 "xlrd_formula_test_names.xls",
