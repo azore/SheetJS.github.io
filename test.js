@@ -1,4 +1,4 @@
-/* test.js (C) 2013 SheetJS -- http://sheetjs.com */
+/* test.js (C) 2013-2014 SheetJS -- http://sheetjs.com */
 /* vim: set ts=2: */
 function parsetest(x, wb) {
 	describe(x + ' should have all bits', function() {
@@ -6,10 +6,31 @@ function parsetest(x, wb) {
 			wb.SheetNames.forEach(function(y) { if(!wb.Sheets[y]) throw new Error('bad sheet ' + y); });
 		});
 	});
+	describe(x + ' should generate CSV', function() {
+		wb.SheetNames.forEach(function(ws, i) {
+			it('#' + i + ' (' + ws + ')', function() {
+				var csv = (x.substr(-1)=="s"?XLS:XLSX).utils.make_csv(wb.Sheets[ws]);
+			});
+		});
+	});
+	describe(x + ' should generate JSON', function() {
+		wb.SheetNames.forEach(function(ws, i) {
+			it('#' + i + ' (' + ws + ')', function() {
+				var json = (x.substr(-1)=="s"?XLS:XLSX).utils.sheet_to_row_object_array(wb.Sheets[ws]);
+			});
+		});
+	});
+	describe(x + ' should generate formulae', function() {
+		wb.SheetNames.forEach(function(ws, i) {
+			it('#' + i + ' (' + ws + ')', function() {
+				var json = (x.substr(-1)=="s"?XLS:XLSX).utils.get_formulae(wb.Sheets[ws]);
+			});
+		});
+	});
 }
 
 describe('should parse test files', function() {
-	this.timeout(10000);
+	this.timeout(20000);
 	[
 "LONumbers-2010.xls",
 "LONumbers-2011.xls",
