@@ -82,21 +82,39 @@ For parsing a more general file, check the Interactive Demos</h3><br/>
 <h3>Follow us on Twitter <a href="https://twitter.com/SheetJS">@SheetJS</a></h3>
 </div>
 </div>
+<script src="xls.js"></script>
 <script src="jszip.js"></script>
 <script src="xlsx.js"></script>
-<script src="xls.js"></script>
+<script src="others/spin.js"></script>
 <script>
+var rABS = typeof FileReader !== 'undefined' && typeof FileReader.prototype !== 'undefined' && typeof FileReader.prototype.readAsBinaryString !== 'undefined';
+var useworker = typeof Worker !== 'undefined';
+var spinner;
+var pending = false;
+
+function sheetjsw(data, cb, readtype, xls) {
+  pending = true;
+  spinner = new Spinner().spin(document.getElementById('drop'));
+  var worker = new Worker('./sheetjsw.js');
+  worker.onmessage = function(e) {
+    switch(e.data.t) {
+      case 'ready': break;
+      case 'e': pending = false; console.error(e.data.d); break;
+      case 'xls': case 'xlsx': pending = false; spinner.stop();
+        cb(JSON.parse(e.data.d), e.data.t); break;
+    }
+  };
+  worker.postMessage({d:data,b:readtype,t:xls?'xls':'xlsx'});
+}
 
 var last_wb, last_type;
 
 function to_json(workbook, type) {
-  var XL = type === 'XLS' ? XLS : XLSX;
+  var XL = type.toUpperCase() === 'XLS' ? XLS : XLSX;
   var result = {};
   workbook.SheetNames.forEach(function(sheetName) {
     var roa = XL.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
-    if(roa.length > 0){
-      result[sheetName] = roa;
-    }
+    if(roa.length > 0) result[sheetName] = roa;
   });
   return result;
 }
@@ -106,10 +124,7 @@ function get_columns_xls(sheet) {
   range = XLS.utils.decode_range(sheet["!ref"]);
   columnHeaders = [];
   for (C = range.s.c; C <= range.e.c; ++C) {
-    val = sheet[XLS.utils.encode_cell({
-      c: C,
-      r: range.s.r
-    })];
+    val = sheet[XLS.utils.encode_cell({c: C, r: range.s.r})];
     if(val){
       switch(val.t) {
         case 's': case 'str': columnHeaders[C] = JSON.parse(val.v); break;
@@ -125,10 +140,7 @@ function get_columns_xlsx(sheet) {
   range = XLSX.utils.decode_range(sheet["!ref"]);
   columnHeaders = [];
   for (C = range.s.c; C <= range.e.c; ++C) {
-    val = sheet[XLSX.utils.encode_cell({
-      c: C,
-      r: range.s.r
-    })];
+    val = sheet[XLSX.utils.encode_cell({c: C, r: range.s.r})];
     if(val){
       switch(val.t) {
         case 's': case 'str': columnHeaders[C] = val.v; break;
@@ -140,7 +152,7 @@ function get_columns_xlsx(sheet) {
 }
 
 function get_columns(sheet, type) {
-  return (type === 'XLS' ? get_columns_xls : get_columns_xlsx)(sheet);
+  return (type.toUpperCase() === 'XLS' ? get_columns_xls : get_columns_xlsx)(sheet);
 }
 
 
@@ -161,14 +173,13 @@ $(document).ready(function() {
 
 var boldRenderer = function (instance, td, row, col, prop, value, cellProperties) {
   Handsontable.TextCell.renderer.apply(this, arguments);
-  $(td).css({
-    'font-weight': 'bold'
-  });
+  $(td).css({'font-weight': 'bold'});
 };
 
 function choose_sheet(sheetidx) { process_wb(last_wb, last_type, sheetidx); }
 
 function process_wb(wb, type, sheetidx) {
+  if(useworker && wb.SSF) XLS.SSF.load_table(wb.SSF);
   $('#footnote').hide();
   var output = "";
   last_wb = wb;
@@ -218,6 +229,10 @@ var drop = document.getElementById('drop');
 function handleDrop(e) {
   e.stopPropagation();
   e.preventDefault();
+  if(pending) {
+    alertify.alert('Please wait until the current file is processed.', function(){});
+    return;
+  }
   var files = e.dataTransfer.files;
   var i,f;
   for (i = 0, f = files[i]; i != files.length; ++i) {
@@ -226,28 +241,35 @@ function handleDrop(e) {
     reader.onload = function(e) {
       console.log("start");
       var data = e.target.result;
-      var cfb, wb;
-      
+      var wb, arr, xls;
+      var readtype = {type: rABS ? 'binary' : 'base64' };
+      if(!rABS) {
+        arr = String.fromCharCode.apply(null, new Uint8Array(data));
+        data = btoa(arr);
+      }
+      xls = data.charCodeAt(0) == 0xd0 ||(arr && arr[0].charCodeAt(0) == 0xd0);
       function doit() {
-      try {
-        if(e.target.result.charCodeAt(0) == 0xd0) {
-          cfb = XLS.CFB.read(data, {type: 'binary'});
-          wb = XLS.parse_xlscfb(cfb);
-          process_wb(wb, 'XLS');
-        } else {
-          wb = XLSX.read(data, {type: 'binary'});
-          process_wb(wb, 'XLSX');
+        try {
+          if(useworker) { sheetjsw(data, process_wb, readtype, xls); return; }
+          if(xls) {
+            wb = XLS.read(data, readtype);
+            process_wb(wb, 'XLS');
+          } else {
+            wb = XLSX.read(data, readtype);
+            process_wb(wb, 'XLSX');
+          }
+        } catch(e) {
+          console.log(e, e.stack);
+          alertify.alert('We unfortunately dropped the ball here.  We noticed some issues with the grid recently, so please test the file using the direct parsers for <a href="/js-xls/">XLS</a> and <a href="/js-xlsx/">XLSX</a> files.  If there are issues with the direct parsers, please send this file to <a href="mailto:dev@sheetjs.com?subject=I+broke+your+stuff">dev@sheetjs.com</a> so we can make things right.', function(){});
         }
-      } catch(e) {
-        console.log(e, e.stack);
-        alertify.alert('We unfortunately dropped the ball here.  We noticed some issues with the grid recently, so please test the file using the direct parsers for <a href="/js-xls/">XLS</a> and <a href="/js-xlsx/">XLSX</a> files.  If there are issues with the direct parsers, please send this file to <a href="mailto:dev@sheetjs.com?subject=I+broke+your+stuff">dev@sheetjs.com</a> so we can make things right.', function(){});
+        console.log("stop");
       }
-      console.log("stop");
-      }
-      if(e.target.result.length > 500000) alertify.confirm("This file is " + e.target.result.length + " bytes and may take a few moments.  Your browser may lock up during this process.  Shall we play?", function(e) { if(e) doit(); else console.log("stop"); });
+      
+      if(e.target.result.length > 500000) alertify.confirm("This file is " + e.target.result.length + " bytes and may take a few moments.  Your browser may lock up during this process.  Shall we play?", function(e) { if(e) doit(); console.log("stop"); });
       else { doit(); console.log("stop"); }
     };
-    reader.readAsBinaryString(f);
+    if(rABS) reader.readAsBinaryString(f);
+    else reader.readAsArrayBuffer(f);
   }
 }
 
