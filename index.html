@@ -118,7 +118,7 @@ var make_buttons = function(sheetnames, cb) {
   sheetnames.forEach(function(s,idx) {
     var button= $('<button/>').attr({ type:'button', name:'btn' +idx, text:s });
     button.append('<h3>' + s + '</h3>');
-    button.click(function() { select_sheet_cb(idx); });
+    button.click(function() { cb(idx); });
     $buttons.append(button);
     $buttons.append('<br/>');
   });
