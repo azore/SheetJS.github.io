@@ -491,6 +491,7 @@ describe('should parse test files', function() {
 "xlrd_profiles.xls",
 "xlrd_ragged.xls",
 "xlrd_xf_class.xls",
+"formula_stress_test.xlsb",
 "LONumbers-2010.xlsx",
 "LONumbers-2011.xlsx",
 "LONumbers.xlsx",
