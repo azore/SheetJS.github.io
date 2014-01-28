@@ -55,6 +55,7 @@ For parsing a more general file, check the Interactive Demos</h3><br/>
 <b>NO SPREADSHEET DATA IS SENT TO ANY SERVER (parsing and rendering done in your browser)</b></br>
 <h3>This is a work in progress.  Every bit helps.  Please email <a href="mailto:dev@sheetjs.com">dev@sheetjs.com</a> with your feedback.
 <h3>Follow us on Twitter <a href="https://twitter.com/SheetJS">@SheetJS</a></h3>
+<h3>Support OSS!  Bitcoin: <a href="bitcoin:1L664VA281eqj2SJkr4jmnjMp9qyAESsYW">1L664VA281eqj2SJkr4jmnjMp9qyAESsYW</a></h3>
 </div>
 </div>
 
@@ -126,7 +127,7 @@ var make_buttons = function(sheetnames, cb) {
 
 var _onsheet = function(json, cols, sheetnames, select_sheet_cb) {
   $('#footnote').hide();
-  
+
   make_buttons(sheetnames, select_sheet_cb);
   calculateSize();
 
@@ -159,7 +160,7 @@ var _onsheet = function(json, cols, sheetnames, select_sheet_cb) {
 
 /** Drop it like it's hot **/
 DropSheet({
-  drop: _target, 
+  drop: _target,
   on: {
     workstart: _workstart,
     workend: _workend,
