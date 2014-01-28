@@ -1,7 +1,7 @@
 #!/bin/bash
 cat header.html
 echo "<table>"
-git ls-files \*.xls \*.xlsx | while read x; do 
+git ls-files \*.xls \*.xlsb \*.xlsm \*.xlsx | while read x; do 
 	y=$(node -pe 'encodeURIComponent("'"$x"'")')
 	echo "$y">&2
 	echo "<tr><td><a href='$y'>$x</a></td>"
