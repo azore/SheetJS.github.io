@@ -54,12 +54,9 @@ var DropSheet = function DropSheet(opts) {
 		columnHeaders = [];
 		for (C = range.s.c; C <= range.e.c; ++C) {
 			val = sheet[XLS.utils.encode_cell({c: C, r: range.s.r})];
-			if(val){
-				switch(val.t) {
-					case 's': case 'str': columnHeaders[C] = val.v; break;
-					case 'n': columnHeaders[C] = val.v; break;
-				}
-			}
+			if(!val) continue;
+			columnHeaders[C] = type.toLowerCase() == 'xls' ? XLS.utils.format_cell(val) : val.v;
+			//console.log(val, columnHeaders[C]);
 		}
 		return columnHeaders;
 	}
@@ -71,6 +68,7 @@ var DropSheet = function DropSheet(opts) {
 		last_type = type;
 		opts.on.wb(wb, type, sheetidx);
 		var sheet = wb.SheetNames[sheetidx||0];
+		if(type.toLowerCase() == 'xls' && wb.SSF) XLS.SSF.load_table(wb.SSF);
 		var json = to_json(wb, type)[sheet], cols = get_columns(wb.Sheets[sheet], type);
 		opts.on.sheet(json, cols, wb.SheetNames, choose_sheet);
 	}
