@@ -494,7 +494,7 @@ describe('should parse test files', function() {
 "formula_stress_test.xlsb",
 "number_format.xlsb",
 "rich_text_stress.xlsb",
-"time_stress_test_1.xlsb",
+"time_stress_test_1.xlsb.pending",
 "LONumbers-2010.xlsx",
 "LONumbers-2011.xlsx",
 "LONumbers.xlsx",
