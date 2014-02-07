@@ -45,7 +45,7 @@ describe('should parse test files', function() {
 "apachepoi_14330-1.xls",
 "apachepoi_14330-2.xls",
 "apachepoi_14460.xls",
-"apachepoi_15228.xls",
+"apachepoi_15228.xls.pending", /* too slow */
 "apachepoi_15375.xls",
 "apachepoi_15556.xls",
 "apachepoi_15573.xls",
@@ -188,7 +188,7 @@ describe('should parse test files', function() {
 "apachepoi_53588.xls",
 "apachepoi_53798_shiftNegative_TMPL.xls",
 "apachepoi_53972.xls",
-"apachepoi_54016.xls",
+"apachepoi_54016.xls.pending", /* too slow */
 "apachepoi_54206.xls",
 "apachepoi_54500.xls",
 "apachepoi_54686_fraction_formats.xls",
@@ -261,7 +261,7 @@ describe('should parse test files', function() {
 "apachepoi_SingleLetterRanges.xls",
 "apachepoi_SolverContainerAfterSPGR.xls",
 "apachepoi_SquareMacro.xls",
-"apachepoi_StringContinueRecords.xls",
+"apachepoi_StringContinueRecords.xls.pending", /* too slow */
 "apachepoi_StringFormulas.xls",
 "apachepoi_SubtotalsNested.xls",
 "apachepoi_TestRandBetween.xls",
@@ -293,7 +293,7 @@ describe('should parse test files', function() {
 "apachepoi_countblankExamples.xls",
 "apachepoi_countifExamples.xls",
 "apachepoi_dg-text.xls",
-"apachepoi_drawings.xls",
+"apachepoi_drawings.xls.pending", /* too slow */
 "apachepoi_duprich1.xls",
 "apachepoi_duprich2.xls",
 "apachepoi_dvEmpty.xls",
