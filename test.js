@@ -38,7 +38,7 @@ describe('should parse test files', function() {
 "RkNumber.xls",
 "apachepoi_12561-1.xls",
 "apachepoi_12561-2.xls",
-"apachepoi_12843-1.xls",
+"apachepoi_12843-1.xls.pending", /* too slow */
 "apachepoi_12843-2.xls",
 "apachepoi_13224.xls",
 "apachepoi_13796.xls",
@@ -47,7 +47,7 @@ describe('should parse test files', function() {
 "apachepoi_14460.xls",
 "apachepoi_15228.xls.pending", /* too slow */
 "apachepoi_15375.xls",
-"apachepoi_15556.xls",
+"apachepoi_15556.xls.pending", /* too slow */
 "apachepoi_15573.xls",
 "apachepoi_1900DateWindowing.xls",
 "apachepoi_1904DateWindowing.xls",
@@ -70,13 +70,13 @@ describe('should parse test files', function() {
 "apachepoi_28774.xls",
 "apachepoi_29675.xls",
 "apachepoi_29942.xls",
-"apachepoi_29982.xls",
+"apachepoi_29982.xls.pending", /* too slow */
 "apachepoi_30070.xls",
 "apachepoi_30540.xls",
 "apachepoi_30978-alt.xls",
 "apachepoi_30978-deleted.xls",
 "apachepoi_31661.xls",
-"apachepoi_31749.xls",
+"apachepoi_31749.xls.pending", /* too slow */
 "apachepoi_31979.xls",
 "apachepoi_32822.xls",
 "apachepoi_33082.xls",
@@ -117,12 +117,12 @@ describe('should parse test files', function() {
 "apachepoi_44693.xls",
 "apachepoi_44840.xls",
 "apachepoi_44861.xls",
-"apachepoi_44891.xls",
+"apachepoi_44891.xls.pending", /* too slow */
 "apachepoi_44958.xls",
 "apachepoi_45129.xls",
 "apachepoi_45290.xls",
 "apachepoi_45322.xls",
-"apachepoi_45365-2.xls",
+"apachepoi_45365-2.xls.pending", /* too slow */
 "apachepoi_45365.xls",
 "apachepoi_45492.xls",
 "apachepoi_45538_classic_Footer.xls",
@@ -140,7 +140,7 @@ describe('should parse test files', function() {
 "apachepoi_46368.xls",
 "apachepoi_46445.xls",
 "apachepoi_46904.xls.pending", /* too large */
-"apachepoi_47034.xls",
+"apachepoi_47034.xls.pending", /* too slow */
 "apachepoi_47154.xls",
 "apachepoi_47251.xls",
 "apachepoi_47701.xls",
@@ -191,7 +191,7 @@ describe('should parse test files', function() {
 "apachepoi_54016.xls.pending", /* too slow */
 "apachepoi_54206.xls",
 "apachepoi_54500.xls",
-"apachepoi_54686_fraction_formats.xls",
+"apachepoi_54686_fraction_formats.xls.pending", /* too slow */
 "apachepoi_55341_CellStyleBorder.xls",
 "apachepoi_AbnormalSharedFormulaFlag.xls",
 "apachepoi_AreaErrPtg.xls",
@@ -302,7 +302,7 @@ describe('should parse test files', function() {
 "apachepoi_ex42564-21435.xls",
 "apachepoi_ex42564-21503.xls",
 "apachepoi_ex42564-elementOrder.xls",
-"apachepoi_ex42570-20305.xls",
+"apachepoi_ex42570-20305.xls.pending", /* too slow * /* too slow */
 "apachepoi_ex44921-21902.xls",
 "apachepoi_ex45046-21984.xls",
 "apachepoi_ex45582-22397.xls",
@@ -342,7 +342,7 @@ describe('should parse test files', function() {
 "apachepoi_yearfracExamples.xls",
 "comments_stress_test.xls",
 "formula_stress_test.xls",
-"fraction-test.xls",
+"fraction-test.xls.pending", /* too slow */
 "jxls-core_array.xls",
 "jxls-core_beandata.xls",
 "jxls-core_beanwithlist.xls",
@@ -456,7 +456,7 @@ describe('should parse test files', function() {
 "pyExcelerator_oo14.xls",
 "roo_1900_base.xls",
 "roo_1904_base.xls",
-"roo_Bibelbund.xls",
+"roo_Bibelbund.xls.pending", /* too slow */
 "roo_bad_excel_date.xls",
 "roo_bbu.xls",
 "roo_boolean.xls",
