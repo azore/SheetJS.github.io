@@ -3,7 +3,7 @@
 /*jshint eqnull:true, funcscope:true */
 var XLS = {};
 (function(XLS){
-XLS.version = '0.6.5';
+XLS.version = '0.6.7';
 if(typeof module !== "undefined" && typeof require !== 'undefined') {
 	if(typeof cptable === 'undefined') var cptable = require('codepage');
 	var current_codepage = 1252, current_cptable = cptable[1252];
@@ -216,7 +216,7 @@ var _strrev = function(x) { return String(x).split("").reverse().join("");};
 function fill(c,l) { return new Array(l+1).join(c); }
 function pad(v,d,c){var t=String(v);return t.length>=d?t:(fill(c||0,d-t.length)+t);}
 function rpad(v,d,c){var t=String(v);return t.length>=d?t:(t+fill(c||0,d-t.length));}
-SSF.version = '0.5.5';
+SSF.version = '0.5.7';
 /* Options */
 var opts_fmt = {};
 function fixopts(o){for(var y in opts_fmt) if(o[y]===undefined) o[y]=opts_fmt[y];}
@@ -357,23 +357,20 @@ var write_date = function(type, fmt, val) {
 	switch(type) {
 		case 'y': switch(fmt) { /* year */
 			case 'y': case 'yy': return pad(val.y % 100,2);
-			case 'yyy': case 'yyyy': return pad(val.y % 10000,4);
-			default: throw 'bad year format: ' + fmt;
+			default: return pad(val.y % 10000,4);
 		}
 		case 'm': switch(fmt) { /* month */
 			case 'm': return val.m;
 			case 'mm': return pad(val.m,2);
 			case 'mmm': return months[val.m-1][1];
-			case 'mmmm': return months[val.m-1][2];
 			case 'mmmmm': return months[val.m-1][0];
-			default: throw 'bad month format: ' + fmt;
+			default: return months[val.m-1][2];
 		}
 		case 'd': switch(fmt) { /* day */
 			case 'd': return val.d;
 			case 'dd': return pad(val.d,2);
 			case 'ddd': return days[val.q][0];
-			case 'dddd': return days[val.q][1];
-			default: throw 'bad day format: ' + fmt;
+			default: return days[val.q][1];
 		}
 		case 'h': switch(fmt) { /* 12-hour */
 			case 'h': return 1+(val.H+11)%12;
@@ -406,7 +403,6 @@ var write_date = function(type, fmt, val) {
 		} return fmt.length === 3 ? o : pad(o, 2);
 		/* TODO: handle the ECMA spec format ee -> yy */
 		case 'e': { return val.y; } break;
-		default: throw 'bad format type ' + type + ' in ' + fmt;
 	}
 };
 /*jshint +W086 */
@@ -422,14 +418,20 @@ var write_num = function(type, fmt, val) {
 	if(mul !== 0) return write_num(type, fmt, val * Math.pow(10,2*mul)) + fill("%",mul);
 	if(fmt.indexOf("E") > -1) {
 		var idx = fmt.indexOf("E") - fmt.indexOf(".") - 1;
-		if(fmt == '##0.0E+0') {
-			var period = fmt.length - 5;
+		if(fmt.match(/^#+0.0E\+0$/)) {
+			var period = fmt.indexOf("."); if(period === -1) period=fmt.indexOf('E');
 			var ee = (Number(val.toExponential(0).substr(2+(val<0))))%period;
+			if(ee < 0) ee += period;
 			o = (val/Math.pow(10,ee)).toPrecision(idx+1+(period+ee)%period);
 			if(!o.match(/[Ee]/)) {
 				var fakee = (Number(val.toExponential(0).substr(2+(val<0))));
 				if(o.indexOf(".") === -1) o = o[0] + "." + o.substr(1) + "E+" + (fakee - o.length+ee);
-				else throw "missing E |" + o;
+				else o += "E+" + (fakee - ee);
+				while(o.substr(0,2) === "0.") {
+					o = o[0] + o.substr(2,period) + "." + o.substr(2+period);
+					o = o.replace(/^0+([1-9])/,"$1").replace(/^0+\./,"0.");
+				}
+				o = o.replace(/\+-/,"-");
 			}
 			o = o.replace(/^([+-]?)([0-9]*)\.([0-9]*)[Ee]/,function($$,$1,$2,$3) { return $1 + $2 + $3.substr(0,(period+ee)%period) + "." + $3.substr(ee) + "E"; });
 		} else o = val.toExponential(idx);
@@ -444,6 +446,7 @@ var write_num = function(type, fmt, val) {
 		var myn = (rnd - base*den), myd = den;
 		return sign + (base?base:"") + " " + (myn === 0 ? fill(" ", r[1].length + 1 + r[4].length) : pad(myn,r[1].length," ") + r[2] + "/" + r[3] + pad(myd,r[4].length));
 	}
+	if(fmt.match(/^#+0+$/)) fmt = fmt.replace(/#/g,"");
 	if(fmt.match(/^00+$/)) return (val<0?"-":"")+pad(Math.round(aval),fmt.length);
 	if(fmt.match(/^[#?]+$/)) return String(Math.round(val)).replace(/^0$/,"");
 	if((r = fmt.match(/^#*0+\.(0+)/))) {
@@ -533,7 +536,8 @@ function eval_fmt(fmt, v, opts, flen) {
 				out.push(q); lst = c; break;
 			case '[': /* TODO: Fix this -- ignore all conditionals and formatting */
 				o = c;
-				while(fmt[i++] !== ']') o += fmt[i];
+				while(fmt[i++] !== ']' && i < fmt.length) o += fmt[i];
+				if(o.substr(-1) !== ']') throw 'unterminated "[" block: |' + o + '|';
 				if(o.match(/\[[HhMmSs]*\]/)) {
 					if(!dt) dt = parse_date_code(v, opts);
 					if(!dt) return "";
@@ -554,7 +558,7 @@ function eval_fmt(fmt, v, opts, flen) {
 				out.push({t:'D', v:o}); break;
 			case ' ': out.push({t:c,v:c}); ++i; break;
 			default:
-				if(",$-+/():!^&'~{}<>=".indexOf(c) === -1)
+				if(",$-+/():!^&'~{}<>=€".indexOf(c) === -1)
 					throw 'unrecognized character ' + fmt[i] + ' in ' + fmt;
 				out.push({t:'t', v:c}); ++i; break;
 		}
@@ -572,13 +576,13 @@ function eval_fmt(fmt, v, opts, flen) {
 	/* replace fields */
 	for(i=0; i < out.length; ++i) {
 		switch(out[i].t) {
-			case 't': case 'T': case ' ': break;
-			case 'd': case 'm': case 'y': case 'h': case 'H': case 'M': case 's': case 'A': case 'e': case 'Z':
+			case 't': case 'T': case ' ': case 'D': break;
+			case 'd': case 'm': case 'y': case 'h': case 'H': case 'M': case 's': case 'e': case 'Z':
 				out[i].v = write_date(out[i].t, out[i].v, dt);
 				out[i].t = 't'; break;
 			case 'n': case '(': case '?':
 				var jj = i+1;
-				while(out[jj] && ("?D".indexOf(out[jj].t) > -1 || (" t".indexOf(out[jj].t) > -1 && "?t".indexOf((out[jj+1]||{}).t)>-1 && (out[jj+1].t == '?' || out[jj+1].v == '/')) || out[i].t == '(' && (out[jj].t == ')' || out[jj].t == 'n') || out[jj].t == 't' && (out[jj].v == '/' || out[jj].v == '$' || (out[jj].v == ' ' && (out[jj+1]||{}).t == '?')))) {
+				while(out[jj] && ("?D".indexOf(out[jj].t) > -1 || (" t".indexOf(out[jj].t) > -1 && "?t".indexOf((out[jj+1]||{}).t)>-1 && (out[jj+1].t == '?' || out[jj+1].v == '/')) || out[i].t == '(' && (out[jj].t == ')' || out[jj].t == 'n') || out[jj].t == 't' && (out[jj].v == '/' || '$€'.indexOf(out[jj].v) > -1 || (out[jj].v == ' ' && (out[jj+1]||{}).t == '?')))) {
 					out[i].v += out[jj].v;
 					delete out[jj]; ++jj;
 				}
@@ -586,7 +590,6 @@ function eval_fmt(fmt, v, opts, flen) {
 				out[i].t = 't';
 				i = jj-1; break;
 			case 'G': out[i].t = 't'; out[i].v = general_fmt(v,opts); break;
-			default: console.error(out); throw "unrecognized type " + out[i].t;
 		}
 	}
 	return out.map(function(x){return x.v;}).join("");
@@ -1766,7 +1769,7 @@ function parse_ExternName(blob, length, opts) {
 	};
 	if(opts.sbcch === 0x3A01) body = parse_AddinUdf(blob, length-2);
 	//else throw new Error("unsupported SupBook cch: " + opts.sbcch);
-	o.body = blob.read_shift(length-2);
+	o.body = body || blob.read_shift(length-2);
 	return o;
 }
 
@@ -4796,14 +4799,23 @@ function parse_workbook(blob) {
 				} break;
 				case 'Number': {
 					temp_val = {ixfe: val.ixfe, XF: XFs[val.ixfe], v:val.val, t:'n'};
+					if(temp_val.XF) try {
+						temp_val.w=SSF.format(temp_val.XF.ifmt||0, temp_val.v);
+					} catch(e) { }
 					addline({c:val.c, r:val.r}, temp_val);
 				} break;
 				case 'BoolErr': {
 					temp_val = {ixfe: val.ixfe, XF: XFs[val.ixfe], v:val.val, t:val.t};
+					if(temp_val.XF) try {
+						temp_val.w=SSF.format(temp_val.XF.ifmt||0, temp_val.v);
+					} catch(e) { }
 					addline({c:val.c, r:val.r}, temp_val);
 				} break;
 				case 'RK': {
 					temp_val = {ixfe: val.ixfe, XF: XFs[val.ixfe], v:val.rknum, t:'n'};
+					if(temp_val.XF) try {
+						temp_val.w=SSF.format(temp_val.XF.ifmt||0, temp_val.v);
+					} catch(e) { }
 					addline({c:val.c, r:val.r}, temp_val);
 				} break;
 				case 'MulRk': {
@@ -5060,16 +5072,22 @@ function sheet_to_csv(sheet, opts) {
 	var out = "", txt = "";
 	opts = opts || {};
 	if(!sheet["!ref"]) return out;
-	var r = utils.decode_range(sheet["!ref"]);
+	var r = utils.decode_range(sheet["!ref"]),
+		fs = opts.FS||",",
+		rs = opts.RS||"\n";
+
 	for(var R = r.s.r; R <= r.e.r; ++R) {
 		var row = [];
 		for(var C = r.s.c; C <= r.e.c; ++C) {
 			var val = sheet[utils.encode_cell({c:C,r:R})];
 			if(!val) { row.push(""); continue; }
-			txt = format_cell(val);
-			row.push(String(txt).replace(/\\n/g,"\n").replace(/\\t/g,"\t").replace(/\\\\/g,"\\").replace(/\\\"/g,"\"\""));
+			txt = String(format_cell(val));
+			if(txt.indexOf(fs) !== -1 || txt.indexOf(rs) !== -1 || txt.indexOf("\"") !== -1){
+				txt = "\""+txt.replace(/"/g, '""') +"\"";
+			}
+			row.push(txt);
 		}
-		out += row.join(opts.FS||",") + (opts.RS||"\n");
+		out += row.join(fs) + (rs);
 	}
 	return out;
 }
@@ -5161,13 +5179,4 @@ XLS.readFile = readFile;
 XLS.utils = utils;
 XLS.CFB = CFB;
 XLS.SSF = SSF;
-if(typeof module !== 'undefined' && require.main === module ) {
-	var wb = readFile(process.argv[2] || 'Book1.xls');
-	var target_sheet = process.argv[3] || '';
-	if(target_sheet === '') target_sheet = wb.Directory[0];
-	var ws = wb.Sheets[target_sheet];
-	console.log(target_sheet);
-	console.log(make_csv(ws));
-	//console.log(get_formulae(ws));
-}
 })(typeof exports !== 'undefined' ? exports : XLS);
