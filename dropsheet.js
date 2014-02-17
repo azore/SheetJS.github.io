@@ -18,6 +18,13 @@ var DropSheet = function DropSheet(opts) {
 	var rABS = typeof FileReader !== 'undefined' && typeof FileReader.prototype !== 'undefined' && typeof FileReader.prototype.readAsBinaryString !== 'undefined';
 	var useworker = typeof Worker !== 'undefined';
 	var pending = false;
+	function fixdata(data) {
+		var o = "", l = 0, w = 10240;
+		for(; l<data.byteLength/w; ++l)
+			o+=String.fromCharCode.apply(null,new Uint8Array(data.slice(l*w,l*w+w)));
+		o+=String.fromCharCode.apply(null, new Uint8Array(data.slice(o.length)));
+		return o;
+	}
 
 	function sheetjsw(data, cb, readtype, xls) {
 		pending = true;
@@ -87,7 +94,7 @@ var DropSheet = function DropSheet(opts) {
 				var wb, arr, xls;
 				var readtype = {type: rABS ? 'binary' : 'base64' };
 				if(!rABS) {
-					arr = String.fromCharCode.apply(null, new Uint8Array(data));
+					arr = fixdata(data);
 					data = btoa(arr);
 				}
 				xls = data.charCodeAt(0) == 0xd0 ||(arr && arr[0].charCodeAt(0) == 0xd0);
